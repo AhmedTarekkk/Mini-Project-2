@@ -210,11 +210,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x0000008e                __vector_13
                 0x0000008e                __vector_17
                 0x0000008e                __vector_19
+                0x0000008e                __vector_7
                 0x0000008e                __vector_5
                 0x0000008e                __vector_4
                 0x0000008e                __vector_9
                 0x0000008e                __vector_15
-                0x0000008e                __vector_8
                 0x0000008e                __vector_14
                 0x0000008e                __vector_10
                 0x0000008e                __vector_16
@@ -311,9 +311,9 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.TIMER1_RESUME
                 0x00000d9a       0x1c ./Timer1.o
                 0x00000d9a                TIMER1_RESUME
- .text.__vector_7
+ .text.__vector_8
                 0x00000db6       0x66 ./main.o
-                0x00000db6                __vector_7
+                0x00000db6                __vector_8
  .text.__vector_1
                 0x00000e1c       0x2c ./main.o
                 0x00000e1c                __vector_1

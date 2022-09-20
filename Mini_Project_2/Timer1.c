@@ -12,16 +12,16 @@ void TIMER1_INIT(void)
 	/* Configure the timer to CTC mode with pre-scaler = clk/1024 ,start counting from 0 and the compare value
 	  in the OCR =  1000 and enable compare mode interrupt so it can generate interrupt every 1 second after
 	  after enabling the I-bit in SREG "General interrupt enable bit" */
-	TCCR1A = (1<<FOC1A) ;
-	TCCR1B = (1<<WGM12) | (1<<CS12) | (1<<CS10) ;
+	TCCR1A = (1<<FOC1B) ;
+	TCCR1B = (1<<WGM12) | (1<<WGM13) | (1<<CS12) | (1<<CS10) ;
 	TCNT1 = 0;
 	/*	OCR1A = 1000 if we consider F = 1Mhz = 1 * 1024 * 10^3
 	 * 	OCR1A = 1024 if we consider F = 1Mhz = 1 * 1024 * 1024
 	 *	OCR1A = 975 if we consider F = 1Mhz = 1 * 10^6
 	 *	i found the last option is more accurate on Porteus
 	 */
-	OCR1A = 975;
-	TIMSK |= (1<<OCIE1A) ;
+	ICR1 = 975;
+	TIMSK |= (1<<OCIE1B) ;
 }
 
 void TIMER1_STOP(void)

@@ -42,8 +42,8 @@ Disassembly of section .text:
       10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
-      1c:	0c 94 db 06 	jmp	0xdb6	; 0xdb6 <__vector_7>
-      20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      20:	0c 94 db 06 	jmp	0xdb6	; 0xdb6 <__vector_8>
       24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -1841,15 +1841,15 @@ void TIMER1_INIT(void)
 	/* Configure the timer to CTC mode with pre-scaler = clk/1024 ,start counting from 0 and the compare value
 	  in the OCR =  1000 and enable compare mode interrupt so it can generate interrupt every 1 second after
 	  after enabling the I-bit in SREG "General interrupt enable bit" */
-	TCCR1A = (1<<FOC1A) ;
+	TCCR1A = (1<<FOC1B) ;
      d46:	ef e4       	ldi	r30, 0x4F	; 79
      d48:	f0 e0       	ldi	r31, 0x00	; 0
-     d4a:	88 e0       	ldi	r24, 0x08	; 8
+     d4a:	84 e0       	ldi	r24, 0x04	; 4
      d4c:	80 83       	st	Z, r24
-	TCCR1B = (1<<WGM12) | (1<<CS12) | (1<<CS10) ;
+	TCCR1B = (1<<WGM12) | (1<<WGM13) | (1<<CS12) | (1<<CS10) ;
      d4e:	ee e4       	ldi	r30, 0x4E	; 78
      d50:	f0 e0       	ldi	r31, 0x00	; 0
-     d52:	8d e0       	ldi	r24, 0x0D	; 13
+     d52:	8d e1       	ldi	r24, 0x1D	; 29
      d54:	80 83       	st	Z, r24
 	TCNT1 = 0;
      d56:	ec e4       	ldi	r30, 0x4C	; 76
@@ -1861,20 +1861,20 @@ void TIMER1_INIT(void)
 	 *	OCR1A = 975 if we consider F = 1Mhz = 1 * 10^6
 	 *	i found the last option is more accurate on Porteus
 	 */
-	OCR1A = 975;
-     d5e:	ea e4       	ldi	r30, 0x4A	; 74
+	ICR1 = 975;
+     d5e:	e6 e4       	ldi	r30, 0x46	; 70
      d60:	f0 e0       	ldi	r31, 0x00	; 0
      d62:	8f ec       	ldi	r24, 0xCF	; 207
      d64:	93 e0       	ldi	r25, 0x03	; 3
      d66:	91 83       	std	Z+1, r25	; 0x01
      d68:	80 83       	st	Z, r24
-	TIMSK |= (1<<OCIE1A) ;
+	TIMSK |= (1<<OCIE1B) ;
      d6a:	a9 e5       	ldi	r26, 0x59	; 89
      d6c:	b0 e0       	ldi	r27, 0x00	; 0
      d6e:	e9 e5       	ldi	r30, 0x59	; 89
      d70:	f0 e0       	ldi	r31, 0x00	; 0
      d72:	80 81       	ld	r24, Z
-     d74:	80 61       	ori	r24, 0x10	; 16
+     d74:	88 60       	ori	r24, 0x08	; 8
      d76:	8c 93       	st	X, r24
 }
      d78:	cf 91       	pop	r28
@@ -1925,12 +1925,12 @@ void TIMER1_RESUME(void)
      db2:	df 91       	pop	r29
      db4:	08 95       	ret
 
-00000db6 <__vector_7>:
+00000db6 <__vector_8>:
 }
 
 #endif
 
-ISR(TIMER1_COMPA_vect) // Interrupt service routine to control the watch time
+ISR(TIMER1_COMPB_vect) // Interrupt service routine to control the watch time
 {
      db6:	1f 92       	push	r1
      db8:	0f 92       	push	r0
@@ -1949,7 +1949,7 @@ ISR(TIMER1_COMPA_vect) // Interrupt service routine to control the watch time
 	if(Time.sec > 59)
      dd4:	80 91 6a 00 	lds	r24, 0x006A
      dd8:	8c 33       	cpi	r24, 0x3C	; 60
-     dda:	c0 f0       	brcs	.+48     	; 0xe0c <__vector_7+0x56>
+     dda:	c0 f0       	brcs	.+48     	; 0xe0c <__vector_8+0x56>
 	{
 		Time.min++;
      ddc:	80 91 69 00 	lds	r24, 0x0069
@@ -1960,7 +1960,7 @@ ISR(TIMER1_COMPA_vect) // Interrupt service routine to control the watch time
 		if(Time.min > 59)
      dea:	80 91 69 00 	lds	r24, 0x0069
      dee:	8c 33       	cpi	r24, 0x3C	; 60
-     df0:	68 f0       	brcs	.+26     	; 0xe0c <__vector_7+0x56>
+     df0:	68 f0       	brcs	.+26     	; 0xe0c <__vector_8+0x56>
 			{
 				Time.hour++;
      df2:	80 91 68 00 	lds	r24, 0x0068
@@ -1971,7 +1971,7 @@ ISR(TIMER1_COMPA_vect) // Interrupt service routine to control the watch time
 				if(Time.hour > 23)
      e00:	80 91 68 00 	lds	r24, 0x0068
      e04:	88 31       	cpi	r24, 0x18	; 24
-     e06:	10 f0       	brcs	.+4      	; 0xe0c <__vector_7+0x56>
+     e06:	10 f0       	brcs	.+4      	; 0xe0c <__vector_8+0x56>
 					{
 						Time.hour = 0;
      e08:	10 92 68 00 	sts	0x0068, r1

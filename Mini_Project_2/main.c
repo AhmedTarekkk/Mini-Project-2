@@ -31,7 +31,7 @@ void SetAlarm(unsigned char Hour,unsigned char Min,unsigned char Sec)
 
 #endif
 
-ISR(TIMER1_COMPA_vect) // Interrupt service routine to control the watch time
+ISR(TIMER1_COMPB_vect) // Interrupt service routine to control the watch time
 {
 	Time.sec++;
 	if(Time.sec > 59)
